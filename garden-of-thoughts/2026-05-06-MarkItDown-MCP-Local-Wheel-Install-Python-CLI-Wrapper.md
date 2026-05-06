@@ -28,7 +28,7 @@ In this example, **MarkItDown MCP** exposes document conversion as an MCP tool, 
 
 ## Why this writeup
 
-This writeup came out of solving three practical problems while working with VS Code + MCP tooling:
+This writeup came out of solving three practical problems while working with VS Code + PDF->Markdown Conversion + MCP tooling:
 
 1. **Could not install the extension from VS Code Extension UI**  
    The standard Extension Marketplace install path was unavailable in my corporate environment, so I needed a direct installation approach that bypassed editor-managed packaging.
