@@ -2,7 +2,7 @@
 """
 Purpose: A Python CLI wrapper function to use markdown mcp server for experiment.
 Author: Sherry
-Assistant: ChatGPT Codex
+Coding Assistant: Codex
 Date: 4/20/2026
 """
 

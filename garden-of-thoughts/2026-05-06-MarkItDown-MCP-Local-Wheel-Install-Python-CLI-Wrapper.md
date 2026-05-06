@@ -93,6 +93,15 @@ This creates a console entrypoint:
 3. Start MCP server over stdio
 4. Initialize MCP session
 5. Call tool: `convert_to_markdown`
+   - The tool name is defined by the MCP tool contract exposed by the server; this is the tool identifier the client uses when invoking the conversion action.
+   - You can find it by inspecting the server's tool registry or tool manifest, typically via MCP discovery APIs, server logs, or the package docs for `markitdown-mcp`.
+   - In the wrapper, use `session.list_tools()` (exposed by the CLI as `--list-tools`) to discover the registered tool names from the specific MCP server being launched before calling `convert_to_markdown`.
+
+   ```bash
+   python ai-ml/markitdown_mcp_client_convert.py \
+     --server "C:/.../.venv/Scripts/markitdown-mcp.exe" \
+     --list-tools
+   ```
 6. Extract text response block
 7. Write Markdown to file (or stdout)
 8. Return nonzero exit code on failure
@@ -113,11 +122,15 @@ result = await session.call_tool(
 
 ## 4) Example usage
 
+> Note: the wrapper script is located in the `ai-ml` folder as `markitdown_mcp_client_convert.py`.
+
 ```bash
 C:/.../.venv/Scripts/python.exe scripts/markitdown_mcp_client_convert.py ^
   "docs/input.pdf" ^
   --out "docs/input.from_mcp.md"
 ```
+
+> Here, `docs/input.pdf` is the input PDF file and `docs/input.from_mcp.md` is the generated Markdown output file.
 
 ---
 
@@ -129,6 +142,12 @@ Installs into your Python environment, creates:
 
 ```text
 markitdown-mcp.exe
+```
+
+For Markdown conversion, this local server exposes the MCP tool:
+
+```text
+convert_to_markdown
 ```
 
 Version is pinned by the wheel package.
@@ -185,8 +204,8 @@ For deterministic automation:
 
 ## Closing thought
 
-This pattern turns MCP from an editor feature into an engineering building block:
+I’ve always liked tools that can be taken apart, understood, and wired into something bigger.
 
-**installable, inspectable, scriptable, and automatable**.
+This pattern turns MCP into exactly that: **installable, inspectable, scriptable, and automatable**.
 
-That is usually where good tooling begins.
+A small tool, perhaps, but the kind that can grow roots and branch into all sorts of workflows 🌱
