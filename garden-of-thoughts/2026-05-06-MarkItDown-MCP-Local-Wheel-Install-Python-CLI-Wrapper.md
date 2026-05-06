@@ -57,7 +57,7 @@ In short:
 - **Explicit server control**
 - **Scriptable workflow**
 
-That combination is ideal for experimentation, debugging, and automation.
+I’m always big on experimenting and automation, and this combination has been especially useful for trying ideas quickly, debugging when things go sideways, and turning repeatable work into something automated. ⚙️🌱.
 
 ---
 
