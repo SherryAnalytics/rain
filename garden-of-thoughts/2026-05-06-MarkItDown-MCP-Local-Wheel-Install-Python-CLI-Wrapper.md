@@ -3,6 +3,21 @@
 A compact pattern for converting PDFs (or any URI-supported input) to Markdown using a local `markitdown-mcp` server binary and an MCP client wrapper.
 ---
 
+> **Series note**
+>
+> This writeup is **Part 1** in a small exploration of using **MarkItDown MCP** in practical workflows.
+>
+> - **Part 1**: *MarkItDown MCP: Local Wheel Install + Minimal Python CLI Wrapper*  
+>   Covers local installation from a wheel package and wrapping MCP calls in a lightweight Python CLI for scriptable conversion.
+>
+> - **Part 2**: *MarkItDown MCP: Using Document Conversion in Agent Workflows*  
+>   Covers exposing document conversion as a callable tool inside agent pipelines, where conversion becomes a reusable workflow step for summarization, extraction, indexing, and downstream reasoning.
+>
+> Part 1 is about **making conversion callable from scripts**.  
+> Part 2 is about **making conversion callable from agents**.
+>
+> Same engine, different orchestra conductor 🎼🤖
+
 ## What is MCP?
 
 **Model Context Protocol (MCP)** is an open protocol for connecting AI models to external tools, data sources, and executable capabilities through a standard interface. Think of it as a common "tool bus" for AI applications, allowing models to discover and invoke tools consistently instead of relying on one-off custom integrations. :contentReference[oaicite:0]{index=0}
