@@ -11,7 +11,7 @@ I was trying to create a set of QC prompt templates and initially asked the agen
 
 At first I thought the model itself had failed.
 
-But after reading the FAQ shared by Ross and Dinesh, I tried a different approach: instead of asking the agent to generate everything in one giant context window, I broke the work into smaller focused steps and reviewed the prompts one at a time.
+Then I tried a different approach: instead of asking the agent to generate everything in one giant context window, I broke the work into smaller focused steps and reviewed the prompts one at a time.
 
 That worked.
 
