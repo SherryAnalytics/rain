@@ -84,6 +84,79 @@ That realization changed how I think about PromptOps.
 
 ---
 
+# How I Started Organizing the Prompt Templates
+
+Another thing I learned from this exercise was that the templates themselves needed structure.
+
+Instead of treating prompts as one large collection, I started dividing them into domains.
+
+For now, I grouped them into two major categories:
+
+## 1. DA (Data Analyst) Domain
+
+Templates focused on remediation analytics work itself.
+
+Examples include:
+
+- EA entry writer
+- population analysis support
+- inclusion/exclusion waterfall logic
+- data profiling helpers
+- exploratory analysis assistance
+- requirement interpretation
+- SQL/Python/SAS generation support
+
+These templates are designed to help produce or accelerate analytical work products.
+
+---
+
+## 2. QC (Quality Control) Domain
+
+Templates focused on reviewing, validating, and grading QC check readiness.
+
+Examples include:
+
+- grade EA entries
+- QC checklist review
+- standards validation
+- wording consistency checks
+- documentation completeness review
+- defect identification
+- remediation audit support
+
+These templates behave more like reviewers or validators rather than creators.
+
+---
+
+# What Became Interesting
+
+Once I separated the templates into domains, the workflow started feeling less like “chatting with AI” and more like orchestrating specialized agents with distinct responsibilities.
+
+For example:
+
+```text
+DA template → creates EA entry draft
+QC template → reviews and grades the EA entry
+Finalization template → prepares final submission artifact
+```
+
+At that point, PromptOps started resembling a lightweight operating system for analytical workflows.
+
+Not because the prompts themselves were magical, but because:
+
+- the templates were modular
+- responsibilities were separated
+- context became more manageable
+- prompts became reusable
+- review loops became clearer
+- outputs became easier to audit
+
+Ironically, this also reduced context overload, because each template only needed the context relevant to its own role.
+
+That may have been one of the biggest lessons from the entire debugging experience.
+
+---
+
 # Related Reading
 
 ## AI Engineering / PromptOps
@@ -111,4 +184,4 @@ The lesson for me was not that “AI failed.”
 
 The lesson was that orchestration matters.
 
-Long context should be treated as a managed resource, not an infinite container.
+Long context should be treated as a managed asset, not an infinite container.
