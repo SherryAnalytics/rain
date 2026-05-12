@@ -45,11 +45,14 @@ In practice, PromptOps feels less like dumping everything into one mega-prompt, 
 
 For example:
 
-1. Create template
-2. Review template
-3. Save template
-4. Move to next template
-5. Maintain changelog/versioning
+1. Create policy
+2. Create index - registry
+3. Create reusabe snippets
+4. Create template
+5. Review template
+6. Save template
+7. Move to next template 
+8. Maintain changelog/versioning
 
 The workflow matters as much as the prompt itself.
 
