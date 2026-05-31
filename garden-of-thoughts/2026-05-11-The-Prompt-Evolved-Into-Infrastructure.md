@@ -1,3 +1,10 @@
+---
+layout: post
+title: "The Prompt Evolved Into Infrastructure - A Quiet Shift in AI Engineering"
+date: 2026-05-11
+tags: [prompt-engineering, ai-infrastructure, llm]
+---
+
 # From Prompt Engineering to PromptOps / Context Engineering
 
 Lately I’ve been thinking less about “prompt engineering” in the old sense of writing one perfect clever prompt, and more about orchestrating workflows around AI.
