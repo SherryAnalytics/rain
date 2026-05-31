@@ -1,9 +1,9 @@
 title: Rain
-description: SherryAnalytics – writings on data, AI, cloud and reflections
+description: SherryAnalytics – writings on data, AI, and reflections
 baseurl: "/Rain"
 url: "https://sherryanalytics.github.io"
 
-remote_theme: mmistakes/minimal-mistakes
+remote_theme: mmistakes/minimal-mistakes@4.24.0
 
 plugins:
   - jekyll-remote-theme
@@ -13,7 +13,7 @@ plugins:
 author:
   name: "SherryAnalytics"
   bio: "Writing about data engineering, AI, and cloud."
-  location: "Phoenix, USA"
+  location: "Phoenix, AZ"
 
 defaults:
   - scope:
