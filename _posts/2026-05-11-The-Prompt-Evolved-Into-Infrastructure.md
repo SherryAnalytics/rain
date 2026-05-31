@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "The Prompt Evolved Into Infrastructure - A Quiet Shift in AI Engineering"
 date: 2026-05-11
 tags: [prompt-engineering, ai-infrastructure, llm]

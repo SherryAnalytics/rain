@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "ChatGPT Projects and Long Text - Where the Data Boundaries Are"
 date: 2026-05-03
 tags: [chatgpt, llm, data, context-window]

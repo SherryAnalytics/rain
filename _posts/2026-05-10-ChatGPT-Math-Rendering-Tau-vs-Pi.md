@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "ChatGPT Math Rendering - Tau vs Pi and What It Reveals"
 date: 2026-05-10
 tags: [chatgpt, math, rendering]

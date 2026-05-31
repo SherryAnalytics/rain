@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "Starburst and Federated Analytics - My First View"
 date: 2026-05-05
 tags: [starburst, federated-analytics, data-engineering]

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "MarkItDown with MCP - Local Wheel Install and Python CLI Wrapper"
 date: 2026-05-06
 tags: [markitdown, mcp, python, cli]

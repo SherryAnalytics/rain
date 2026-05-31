@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "When Memory Fills Up - The PROTOCOL_ERROR Nobody Talks About"
 date: 2026-05-11
 tags: [llm, memory, protocol-error, debugging]
