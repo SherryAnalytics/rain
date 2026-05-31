@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Starburst and Federated Analytics - My First View"
+date: 2026-05-05
+tags: [starburst, federated-analytics, data-engineering]
+---
+
 # Starburst as the Federated Brain of Modern Data Architecture ☁️🧠
 
 Recently I’ve been using Starburst as a federated SQL and policy layer for analytics on datasets hosted in **Google Cloud**, and I’ve spent some time understanding why **Starburst** is increasingly being adopted by large enterprises as a key layer in modern analytics platforms.
