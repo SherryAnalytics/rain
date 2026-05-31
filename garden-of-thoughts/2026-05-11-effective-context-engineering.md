@@ -1,3 +1,9 @@
+---
+layout: post
+title: "Effective Context Engineering - Anthropic Context Windows"
+date: 2026-05-11
+---
+
 # Anthropic Context Windows Overview
 https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
 
