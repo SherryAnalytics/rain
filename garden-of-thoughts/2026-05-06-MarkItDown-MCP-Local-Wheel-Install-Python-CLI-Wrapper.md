@@ -1,3 +1,10 @@
+---
+layout: post
+title: "MarkItDown with MCP - Local Wheel Install and Python CLI Wrapper"
+date: 2026-05-06
+tags: [markitdown, mcp, python, cli]
+---
+
 # MarkItDown MCP: Local Wheel Install + Minimal Python CLI Wrapper
 
 A compact pattern for converting PDFs (or any URI-supported input) to Markdown using a local `markitdown-mcp` server binary and an MCP client wrapper.
