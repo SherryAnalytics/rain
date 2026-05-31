@@ -1,3 +1,10 @@
+---
+layout: post
+title: "When Memory Fills Up - The PROTOCOL_ERROR Nobody Talks About"
+date: 2026-05-11
+tags: [llm, memory, protocol-error, debugging]
+---
+
 # Long Context Is Not Infinite Memory
 ### Notes from a PromptOps debugging moment in VS Code + GitHub Copilot
 
