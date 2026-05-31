@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Building Data Pipelines with AWS Glue - Cloud Data Assembly Line"
+date: 2026-01-09
+tags: [aws, glue, pipeline, data-engineering]
+---
+
 # Bread-and-Butter AWS Engineering  
 ## Typical AWS Glue Data Pipeline
 
