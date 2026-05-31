@@ -3,19 +3,26 @@ description: SherryAnalytics – writings on data, AI, cloud and reflections
 baseurl: "/Rain"
 url: "https://sherryanalytics.github.io"
 
-theme: minima
+remote_theme: mmistakes/minimal-mistakes
 
-collections:
-  garden-of-thoughts:
-    output: true
-    permalink: /garden-of-thoughts/:name/
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
+  - jekyll-sitemap
+
+author:
+  name: "SherryAnalytics"
+  bio: "Writing about data engineering, AI, and cloud."
+  location: "Phoenix, USA"
 
 defaults:
   - scope:
-      path: "garden-of-thoughts"
-      type: "garden-of-thoughts"
+      path: ""
+      type: posts
     values:
-      layout: post
+      layout: single
+      author_profile: true
+      read_time: true
 
 header_pages:
   - garden-of-thoughts/index.md
