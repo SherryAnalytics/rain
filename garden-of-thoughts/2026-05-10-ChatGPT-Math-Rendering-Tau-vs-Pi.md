@@ -1,3 +1,10 @@
+---
+layout: post
+title: "ChatGPT Math Rendering - Tau vs Pi and What It Reveals"
+date: 2026-05-10
+tags: [chatgpt, math, rendering]
+---
+
 # Writing Math Beautifully in ChatGPT: A Small Note from Tau vs Pi ✍️🔢
 
 Recently I read an article in *Scientific American* about the long-running **Tau vs Pi** debate.
