@@ -1,5 +1,5 @@
 title: Rain
-description: SherryAnalytics – writings on data, AI, and reflections
+description: SherryAnalytics – writings on data, AI, cloud and reflections
 baseurl: "/Rain"
 url: "https://sherryanalytics.github.io"
 
@@ -13,5 +13,9 @@ collections:
 defaults:
   - scope:
       path: "garden-of-thoughts"
+      type: "garden-of-thoughts"
     values:
       layout: post
+
+header_pages:
+  - garden-of-thoughts/index.md
