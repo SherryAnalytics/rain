@@ -2,6 +2,7 @@
 layout: post
 title: "Effective Context Engineering - Anthropic Context Windows"
 date: 2026-05-11
+tags: [context-engineering, anthropic, llm]
 ---
 
 # Anthropic Context Windows Overview
