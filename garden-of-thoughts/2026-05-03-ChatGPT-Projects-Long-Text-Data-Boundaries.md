@@ -1,3 +1,10 @@
+---
+layout: post
+title: "ChatGPT Projects and Long Text - Where the Data Boundaries Are"
+date: 2026-05-03
+tags: [chatgpt, llm, data, context-window]
+---
+
 # ChatGPT Projects, Long Context, and Data Boundaries ☁️📂🌱
 
 One feature I've come to appreciate in ChatGPT is **Projects**.
