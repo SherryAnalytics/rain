@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Python vs DevOps - Where Does the Data Engineer Stand?"
+date: 2025-11-13
+tags: [python, devops, data-engineering]
+---
+
 # 📘 Data Diary — Python vs. Python DevOps
 
 A coworker who recently returned to the bank after retirement last year asked me a question:  
