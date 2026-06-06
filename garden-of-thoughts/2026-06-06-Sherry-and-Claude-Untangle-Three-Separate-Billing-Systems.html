@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sherry and Claude Untangle Three Separate Billing Systems — SherryAnalytics</title>
+  <style>
+    body { font-family: Georgia, serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; }
+    h1, h2, h3 { line-height: 1.3; }
+    h1 { font-size: 1.9rem; border-bottom: 2px solid #222; padding-bottom: 12px; }
+    p { line-height: 1.7; color: #333; }
+    a { color: #0066cc; }
+    a:hover { color: #004499; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 3px solid #ccc; margin: 0; padding: 0 16px; color: #555; }
+    .back { font-size: 0.9rem; margin-bottom: 32px; }
+    .back a { text-decoration: none; }
+    .meta { font-size: 0.85rem; color: #888; margin-top: 6px; margin-bottom: 32px; }
+    .tag { background: #eee; border-radius: 3px; padding: 2px 8px; margin-right: 4px; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="back"><a href="index.html">← Garden of Thoughts</a></div>
+  <h1>Sherry and Claude Untangle Three Separate Billing Systems</h1>
+  <div class="meta">
+    <span>June 6, 2026</span>
+    <span class="tag">python</span> <span class="tag">claude-api</span> <span class="tag">billing</span> <span class="tag">claude-code</span> <span class="tag">prompt-caching</span> <span class="tag">vs-code</span>
+  </div>
+  <h1>One Script, Three Bills, and a Caching Lesson</h1>
+<p>This session started with a simple question — <em>did I use up my Claude token budget?</em> — and turned into a full audit of how Claude actually charges for things, plus a structural fix to a Python script along the way.</p>
+<h2>The Script</h2>
+<p>The project is a family history research tool: a Python script that takes scanned Chinese PDF documents and converts each page into markdown using Claude's vision API. Each page is rendered as a PNG, base64-encoded, and sent to Claude with a Chinese OCR prompt. The response comes back as structured markdown, one page at a time.</p>
+<p>We walked through every parameter in the core <code>client.messages.create</code> call: <code>model</code>, <code>max_tokens</code>, <code>cache_control</code>, and the multimodal <code>messages</code> array that carries both the image and the instruction text together in one request.</p>
+<h2>Fixing Prompt Caching</h2>
+<p>The script had <code>cache_control={"type": "ephemeral"}</code> at the top level of the API call — the auto-cache shortcut that targets the last cacheable block in the request. The problem: the image came <em>last</em> in the content array. Since the image changes every page, its bytes became part of the cache key. Every single page missed the cache.</p>
+<p>The fix was two steps:</p>
+<ol>
+<li>Move the instruction text block <strong>before</strong> the image block</li>
+<li>Add <code>"cache_control": {"type": "ephemeral"}</code> directly to the text block itself</li>
+</ol>
+<p>Now the cache key covers only the stable text prompt. The changing image lives after the breakpoint and doesn't affect it.</p>
+<p>One honest caveat: <code>claude-sonnet-4-6</code> requires a minimum of 2048 tokens before a breakpoint to actually write to cache. This prompt is about 150 tokens, so caching won't trigger in practice. The fix is structurally correct and ready for the day the prompt grows.</p>
+<h2>Three Billing Systems</h2>
+<p>The token budget question opened into a clearer map of how Claude charges for things. There are three separate systems, and they do not share budgets:</p>
+<p><strong>Anthropic API billing</strong> — per token, per call. Every <code>client.messages.create()</code> in the Python script hits this. Completely independent of any subscription. Charged to your API account.</p>
+<p><strong>Claude Pro subscription</strong> — $20/month flat rate. Covers claude.ai web chat and Claude Code in VS Code when signed in with your claude.ai account. Has a monthly message limit, not unlimited.</p>
+<p><strong>Claude Code in VS Code</strong> — the one people miss. Depending on how it's configured, it either draws from your Pro subscription or bills per token to the same API account as your Python script. Every file snippet auto-included in a prompt counts toward whichever bucket you're in.</p>
+<p>We confirmed the VS Code extension was authenticated and working with a quick test message. The context chip — <code>&lt;/&gt; pdf_to_markdown.py#40-...</code> — showed the editor automatically including the selected code as context.</p>
+<hr />
+<h2>Related Reading</h2>
+<ul>
+<li><a href="https://platform.claude.com/docs/en/pricing.md">Anthropic API pricing</a></li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching.md">Prompt caching guide</a></li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/vision.md">Vision and multimodal inputs</a></li>
+<li><a href="https://docs.anthropic.com/en/docs/claude-code/overview">Claude Code documentation</a></li>
+</ul>
+<hr />
+<p><em>Edited and refined with assistance from Claude Code.</em></p>
+</body>
+</html>
