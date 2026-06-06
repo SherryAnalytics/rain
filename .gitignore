@@ -1,0 +1,13 @@
+# Markdown source files (converted to HTML for publishing)
+*.md
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/

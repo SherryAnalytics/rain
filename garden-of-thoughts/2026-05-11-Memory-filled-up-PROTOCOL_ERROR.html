@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>When Memory Fills Up - The PROTOCOL_ERROR Nobody Talks About — SherryAnalytics</title>
+  <style>
+    body { font-family: Georgia, serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; }
+    h1, h2, h3 { line-height: 1.3; }
+    h1 { font-size: 1.9rem; border-bottom: 2px solid #222; padding-bottom: 12px; }
+    p { line-height: 1.7; color: #333; }
+    a { color: #0066cc; }
+    a:hover { color: #004499; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 3px solid #ccc; margin: 0; padding: 0 16px; color: #555; }
+    .back { font-size: 0.9rem; margin-bottom: 32px; }
+    .back a { text-decoration: none; }
+    .meta { font-size: 0.85rem; color: #888; margin-top: 6px; margin-bottom: 32px; }
+    .tag { background: #eee; border-radius: 3px; padding: 2px 8px; margin-right: 4px; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="back"><a href="index.html">← Garden of Thoughts</a></div>
+  <h1>When Memory Fills Up - The PROTOCOL_ERROR Nobody Talks About</h1>
+  <div class="meta">
+    <span>May 11, 2026</span>
+    <span class="tag">llm</span> <span class="tag">memory</span> <span class="tag">protocol-error</span> <span class="tag">debugging</span>
+  </div>
+  <h1>Long Context Is Not Infinite Memory</h1>
+<h3>Notes from a PromptOps debugging moment in VS Code + GitHub Copilot</h3>
+<p>Recently I ran into this error while working in VS Code with GitHub Copilot:</p>
+<pre><code class="language-text">Error Code: net::ERR_HTTP2_PROTOCOL_ERROR
+</code></pre>
+<p>I was trying to create a set of QC prompt templates and initially asked the agent to process a large amount of context all at once.</p>
+<p>At first I thought the model itself had failed.</p>
+<p>Then I tried a different approach: instead of asking the agent to generate everything in one giant context window, I broke the work into smaller focused steps and reviewed the prompts one at a time.</p>
+<p>That worked.</p>
+<p>The interesting part is that the issue was probably not “AI intelligence,” but context overload.</p>
+<p>Since I was working inside VS Code with GitHub Copilot, the overloaded part may have been:</p>
+<ul>
+<li>the Copilot chat session</li>
+<li>the VS Code extension</li>
+<li>the service connection</li>
+<li>the request payload being transmitted behind the scenes</li>
+<li>accumulated generated artifacts and instructions</li>
+</ul>
+<p>Modern AI tools can handle very large contexts, but the surrounding workflow still has to package and carry:</p>
+<ul>
+<li>chat history</li>
+<li>prompt templates</li>
+<li>instructions</li>
+<li>generated files</li>
+<li>tool outputs</li>
+<li>formatting metadata</li>
+<li>file operations</li>
+</ul>
+<p>Eventually the whole thing becomes heavy and fragile.</p>
+<p>This reminded me that:</p>
+<blockquote>
+<p>Long context is useful, but it is not infinite working memory.</p>
+</blockquote>
+<p>In practice, PromptOps feels less like dumping everything into one mega-prompt, and more like orchestrating manageable stages.</p>
+<p>For example:</p>
+<ol>
+<li>Create policy</li>
+<li>Create index - registry</li>
+<li>Create reusabe snippets</li>
+<li>Create template</li>
+<li>Review template</li>
+<li>Save template</li>
+<li>Move to next template </li>
+<li>Maintain changelog/versioning</li>
+</ol>
+<p>The workflow matters as much as the prompt itself.</p>
+<p>Ironically, this feels very human too.</p>
+<p>A clean desk and a staged checklist often outperform trying to hold the entire project in your head at once.</p>
+<hr />
+<h1>Why This Matters</h1>
+<p>One thing I am gradually learning is that modern AI engineering is not only about model capability.</p>
+<p>It is also about:</p>
+<ul>
+<li>orchestration</li>
+<li>context management</li>
+<li>workflow boundaries</li>
+<li>modular prompting</li>
+<li>state management</li>
+<li>review checkpoints</li>
+<li>memory strategy</li>
+</ul>
+<p>Large context windows are powerful, but they are not magic infinity containers.</p>
+<p>In many cases, smaller well-scoped prompts produce more stable and maintainable systems than one gigantic “do everything” prompt.</p>
+<p>That realization changed how I think about PromptOps.</p>
+<hr />
+<h1>How I Started Organizing the Prompt Templates</h1>
+<p>Another thing I learned from this exercise was that the templates themselves needed structure.</p>
+<p>Instead of treating prompts as one large collection, I started dividing them into domains.</p>
+<p>For now, I grouped them into two major categories:</p>
+<h2>1. DA (Data Analyst) Domain</h2>
+<p>Templates focused on remediation analytics work itself.</p>
+<p>Examples include:</p>
+<ul>
+<li>EA entry writer</li>
+<li>population analysis support</li>
+<li>inclusion/exclusion waterfall logic</li>
+<li>data profiling helpers</li>
+<li>exploratory analysis assistance</li>
+<li>requirement interpretation</li>
+<li>SQL/Python/SAS generation support</li>
+</ul>
+<p>These templates are designed to help produce or accelerate analytical work products.</p>
+<hr />
+<h2>2. QC (Quality Control) Domain</h2>
+<p>Templates focused on reviewing, validating, and grading QC check readiness.</p>
+<p>Examples include:</p>
+<ul>
+<li>grade EA entries</li>
+<li>QC checklist review</li>
+<li>standards validation</li>
+<li>wording consistency checks</li>
+<li>documentation completeness review</li>
+<li>defect identification</li>
+<li>remediation audit support</li>
+</ul>
+<p>These templates behave more like reviewers or validators rather than creators.</p>
+<hr />
+<h1>What Became Interesting</h1>
+<p>Once I separated the templates into domains, the workflow started feeling less like “chatting with AI” and more like orchestrating specialized agents with distinct responsibilities.</p>
+<p>For example:</p>
+<pre><code class="language-text">DA template → creates EA entry draft
+QC template → reviews and grades the EA entry
+Finalization template → prepares final submission artifact
+</code></pre>
+<p>At that point, PromptOps started resembling a lightweight operating system for analytical workflows.</p>
+<p>Not because the prompts themselves were magical, but because:</p>
+<ul>
+<li>the templates were modular</li>
+<li>responsibilities were separated</li>
+<li>context became more manageable</li>
+<li>prompts became reusable</li>
+<li>review loops became clearer</li>
+<li>outputs became easier to audit</li>
+</ul>
+<p>Ironically, this also reduced context overload, because each template only needed the context relevant to its own role.</p>
+<p>That may have been one of the biggest lessons from the entire debugging experience.</p>
+<hr />
+<h1>Related Reading</h1>
+<h2>AI Engineering / PromptOps</h2>
+<h3>AI Engineering by Chip Huyen</h3>
+<p>https://www.oreilly.com/library/view/ai-engineering/9781098166298/</p>
+<h3>OpenAI Prompt Engineering Guide</h3>
+<p>https://platform.openai.com/docs/guides/prompt-engineering</p>
+<h3>Anthropic Context Windows Overview</h3>
+<p>https://docs.anthropic.com/en/docs/build-with-claude/context-windows</p>
+<h3>LangChain Memory Concepts</h3>
+<p>https://python.langchain.com/docs/concepts/memory/</p>
+<h3>Andrej Karpathy discussion on Context Engineering</h3>
+<p>https://x.com/karpathy/status/1937902205765607626</p>
+<hr />
+<h1>Personal Takeaway</h1>
+<p>The lesson for me was not that “AI failed.”</p>
+<p>The lesson was that orchestration matters.</p>
+<p>Long context should be treated as a managed asset, not an infinite container.</p>
+</body>
+</html>

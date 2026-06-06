@@ -1,0 +1,15 @@
+[project]
+name = "rain"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "ipykernel>=7.2.0",
+    "jupyter>=1.1.1",
+    "markdown>=3.10.2",
+    "notebook>=7.5.7",
+    "numpy>=2.4.6",
+    "pandas>=3.0.3",
+    "pyyaml>=6.0.3",
+]

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MarkItDown with MCP - Local Wheel Install and Python CLI Wrapper — SherryAnalytics</title>
+  <style>
+    body { font-family: Georgia, serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; }
+    h1, h2, h3 { line-height: 1.3; }
+    h1 { font-size: 1.9rem; border-bottom: 2px solid #222; padding-bottom: 12px; }
+    p { line-height: 1.7; color: #333; }
+    a { color: #0066cc; }
+    a:hover { color: #004499; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 3px solid #ccc; margin: 0; padding: 0 16px; color: #555; }
+    .back { font-size: 0.9rem; margin-bottom: 32px; }
+    .back a { text-decoration: none; }
+    .meta { font-size: 0.85rem; color: #888; margin-top: 6px; margin-bottom: 32px; }
+    .tag { background: #eee; border-radius: 3px; padding: 2px 8px; margin-right: 4px; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="back"><a href="index.html">← Garden of Thoughts</a></div>
+  <h1>MarkItDown with MCP - Local Wheel Install and Python CLI Wrapper</h1>
+  <div class="meta">
+    <span>May 6, 2026</span>
+    <span class="tag">markitdown</span> <span class="tag">mcp</span> <span class="tag">python</span> <span class="tag">cli</span>
+  </div>
+  <h1>MarkItDown MCP: Local Wheel Install + Minimal Python CLI Wrapper</h1>
+<h2>A compact pattern for converting PDFs (or any URI-supported input) to Markdown using a local <code>markitdown-mcp</code> server binary and an MCP client wrapper.</h2>
+<blockquote>
+<p><strong>Series note</strong></p>
+<p>This writeup is <strong>Part 1</strong> in a small exploration of using <strong>MarkItDown MCP</strong> in practical workflows.</p>
+<ul>
+<li>
+<p><strong>Part 1</strong>: <em>MarkItDown MCP: Local Wheel Install + Minimal Python CLI Wrapper</em><br />
+  Covers local installation from a wheel package and wrapping MCP calls in a lightweight Python CLI for scriptable conversion.</p>
+</li>
+<li>
+<p><strong>Part 2</strong>: <em>MarkItDown MCP: Using Document Conversion in Agent Workflows</em><br />
+  Covers exposing document conversion as a callable tool inside agent pipelines, where conversion becomes a reusable workflow step for summarization, extraction, indexing, and downstream reasoning.</p>
+</li>
+</ul>
+<p>Part 1 is about <strong>making conversion callable from scripts</strong>.<br />
+Part 2 is about <strong>making conversion callable from agents</strong>.</p>
+<p>Same engine, different orchestra conductor 🎼🤖</p>
+</blockquote>
+<h2>What is MCP?</h2>
+<p><strong>Model Context Protocol (MCP)</strong> is an open protocol for connecting AI models to external tools, data sources, and executable capabilities through a standard interface. Think of it as a common "tool bus" for AI applications, allowing models to discover and invoke tools consistently instead of relying on one-off custom integrations. :contentReference[oaicite:0]{index=0}</p>
+<p>In this example, <strong>MarkItDown MCP</strong> exposes document conversion as an MCP tool, making PDF → Markdown conversion callable from scripts, editors, or agent workflows.</p>
+<hr />
+<h2>Why this writeup</h2>
+<p>This writeup came out of solving three practical problems while working with VS Code + PDF-&gt;Markdown Conversion + MCP tooling:</p>
+<ol>
+<li>
+<p><strong>Could not install the extension from VS Code Extension UI</strong><br />
+   The standard Extension Marketplace install path was unavailable in my corporate environment, so I needed a direct installation approach that bypassed editor-managed packaging.</p>
+</li>
+<li>
+<p><strong>Understanding MCP server setup</strong><br />
+   I wanted to understand the MCP server lifecycle end-to-end:</p>
+</li>
+</ol>
+<p><code>text
+   install → configure → launch → connect → invoke tools → handle failures</code></p>
+<p>Working with a local wheel made the server binary explicit and controllable, instead of hiding it behind editor abstractions.</p>
+<ol>
+<li>
+<p><strong>Creating a reusable MCP workflow via CLI wrapper</strong><br />
+   Once the server was running, the next goal was ergonomics:</p>
+</li>
+<li>
+<p>convert documents with a simple command</p>
+</li>
+<li>integrate into scripts</li>
+<li>make MCP usage repeatable in automation pipelines</li>
+</ol>
+<p>A lightweight Python CLI wrapper became the cleanest interface.</p>
+<p>In short:</p>
+<ul>
+<li><strong>Explicit install</strong></li>
+<li><strong>Explicit server control</strong></li>
+<li><strong>Scriptable workflow</strong></li>
+</ul>
+<p>I’m always big on experimenting and automation, and this combination has been especially useful for trying ideas quickly, debugging when things go sideways, and turning repeatable work into something automated. ⚙️🌱.</p>
+<hr />
+<h2>Why this setup</h2>
+<ul>
+<li><strong>Reproducible</strong>: pin exact server build from a <code>.whl</code></li>
+<li><strong>Offline-friendly</strong>: no marketplace dependency</li>
+<li><strong>Automatable</strong>: scriptable conversion in pipelines</li>
+<li><strong>Transparent</strong>: server path, version, and invocation are fully visible</li>
+<li><strong>Portable</strong>: easy to move between machines / environments</li>
+</ul>
+<hr />
+<h2>1) Install MCP server from local wheel (Windows, venv)</h2>
+<pre><code class="language-bash"># activate your venv first
+pip install C:/path/to/markitdown_mcp-&lt;version&gt;-py3-none-any.whl
+</code></pre>
+<p>This creates a console entrypoint:</p>
+<pre><code class="language-text">.../.venv/Scripts/markitdown-mcp.exe
+</code></pre>
+<hr />
+<h2>2) What the CLI wrapper does (high level)</h2>
+<ol>
+<li>Parse CLI args (<code>input</code>, <code>--out</code>, <code>--server</code>, <code>--timeout</code>)</li>
+<li>Normalize input to URI (<code>file:</code>, <code>http:</code>, <code>https:</code>, <code>data:</code>)</li>
+<li>Start MCP server over stdio</li>
+<li>Initialize MCP session</li>
+<li>Call tool: <code>convert_to_markdown</code></li>
+<li>The tool name is defined by the MCP tool contract exposed by the server; this is the tool identifier the client uses when invoking the conversion action.</li>
+<li>You can find it by inspecting the server's tool registry or tool manifest, typically via MCP discovery APIs, server logs, or the package docs for <code>markitdown-mcp</code>.</li>
+<li>In the wrapper, use <code>session.list_tools()</code> (exposed by the CLI as <code>--list-tools</code>) to discover the registered tool names from the specific MCP server being launched before calling <code>convert_to_markdown</code>.</li>
+</ol>
+<p><code>bash
+   python ai-ml/markitdown_mcp_client_convert.py \
+     --server "C:/.../.venv/Scripts/markitdown-mcp.exe" \
+     --list-tools</code><br />
+6. Extract text response block<br />
+7. Write Markdown to file (or stdout)<br />
+8. Return nonzero exit code on failure</p>
+<hr />
+<h2>3) Minimal call pattern (core logic)</h2>
+<pre><code class="language-python">result = await session.call_tool(
+    &quot;convert_to_markdown&quot;,
+    {&quot;uri&quot;: uri},
+    read_timeout_seconds=timedelta(seconds=timeout_seconds),
+)
+</code></pre>
+<hr />
+<h2>4) Example usage</h2>
+<blockquote>
+<p>Note: the wrapper script is located in the <code>ai-ml</code> folder as <code>markitdown_mcp_client_convert.py</code>.</p>
+</blockquote>
+<pre><code class="language-bash">C:/.../.venv/Scripts/python.exe scripts/markitdown_mcp_client_convert.py ^
+  &quot;docs/input.pdf&quot; ^
+  --out &quot;docs/input.from_mcp.md&quot;
+</code></pre>
+<blockquote>
+<p>Here, <code>docs/input.pdf</code> is the input PDF file and <code>docs/input.from_mcp.md</code> is the generated Markdown output file.</p>
+</blockquote>
+<hr />
+<h2>5) Local wheel vs editor extension (quick distinction)</h2>
+<h3>Local wheel</h3>
+<p>Installs into your Python environment, creates:</p>
+<pre><code class="language-text">markitdown-mcp.exe
+</code></pre>
+<p>For Markdown conversion, this local server exposes the MCP tool:</p>
+<pre><code class="language-text">convert_to_markdown
+</code></pre>
+<p>Version is pinned by the wheel package.</p>
+<h3>Editor extension</h3>
+<p>Editor-managed lifecycle and UX; package / binary location may be abstracted away.</p>
+<p>For deterministic automation:</p>
+<blockquote>
+<p><strong>local wheel + virtual environment</strong> is usually the better fit.</p>
+</blockquote>
+<hr />
+<h2>6) Practical tips</h2>
+<ul>
+<li>Keep <code>--server</code> configurable (do not permanently hardcode it)</li>
+<li>Validate file existence before conversion</li>
+<li>Log timeout and server path on failures</li>
+<li>Pin package versions for repeatable output</li>
+<li>Wrap conversion into reusable shell / Python helpers</li>
+<li>Treat MCP server binaries like build dependencies: <strong>explicit is better than magical</strong></li>
+</ul>
+<hr />
+<h2>References / Links</h2>
+<h3>MCP</h3>
+<ul>
+<li>
+<p>Anthropic, <strong>Introducing Model Context Protocol (official)</strong><br />
+<a href="https://en.wikipedia.org/wiki/Model_Context_Protocol?utm_source=chatgpt.com">Model Context Protocol Overview</a></p>
+</li>
+<li>
+<p>MCP Specification (GitHub)<br />
+  https://github.com/modelcontextprotocol/specification</p>
+</li>
+<li>
+<p>MCP Python SDK<br />
+  https://github.com/modelcontextprotocol/python-sdk</p>
+</li>
+</ul>
+<hr />
+<h3>MarkItDown</h3>
+<ul>
+<li>Microsoft, <strong>MarkItDown (official repo)</strong><br />
+  https://github.com/microsoft/markitdown</li>
+</ul>
+<hr />
+<h3>VS Code AI / tooling ecosystem</h3>
+<ul>
+<li>VS Code documentation on MCP / AI extensibility<br />
+  https://code.visualstudio.com/</li>
+</ul>
+<hr />
+<h2>Closing thought</h2>
+<p>I’ve always liked tools that can be taken apart, understood, and wired into something bigger.</p>
+<p>This pattern turns MCP into exactly that: <strong>installable, inspectable, scriptable, and automatable</strong>.</p>
+<p>A small tool, perhaps, but the kind that can grow roots and branch into all sorts of workflows 🌱</p>
+</body>
+</html>
