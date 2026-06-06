@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sherry 和 Claude 理清三套独立的计费体系 — SherryAnalytics</title>
+  <style>
+    body { font-family: Georgia, serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; }
+    h1, h2, h3 { line-height: 1.3; }
+    h1 { font-size: 1.9rem; border-bottom: 2px solid #222; padding-bottom: 12px; }
+    p { line-height: 1.7; color: #333; }
+    a { color: #0066cc; }
+    a:hover { color: #004499; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 3px solid #ccc; margin: 0; padding: 0 16px; color: #555; }
+    .back { font-size: 0.9rem; margin-bottom: 32px; }
+    .back a { text-decoration: none; }
+    .meta { font-size: 0.85rem; color: #888; margin-top: 6px; margin-bottom: 32px; }
+    .tag { background: #eee; border-radius: 3px; padding: 2px 8px; margin-right: 4px; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="back"><a href="index.html">← Garden of Thoughts</a></div>
+  <h1>Sherry 和 Claude 理清三套独立的计费体系</h1>
+  <div class="meta">
+    <span>June 6, 2026</span>
+    <span class="tag">python</span> <span class="tag">claude-api</span> <span class="tag">billing</span> <span class="tag">claude-code</span> <span class="tag">prompt-caching</span> <span class="tag">vs-code</span>
+  </div>
+  <h1>一个脚本、三张账单，外加一堂缓存课</h1>
+<p>这次会话从一个简单的问题开始——<em>我的 Claude token 额度还够用吗？</em>——最终演变成一次对 Claude 计费方式的全面梳理，顺手还修了一个 Python 脚本的结构问题。</p>
+<h2>脚本是做什么的</h2>
+<p>这个项目是一个家族历史研究工具：一个 Python 脚本，把扫描好的中文 PDF 文件逐页转换为 Markdown，调用的是 Claude 的视觉 API。每一页先渲染成 PNG 图片，经过 base64 编码后，连同中文 OCR 提示词一起发送给 Claude，响应结果以结构化 Markdown 的形式逐页返回。</p>
+<p>我们逐一审查了核心 API 调用 <code>client.messages.create</code> 中的每个参数：<code>model</code>、<code>max_tokens</code>、<code>cache_control</code>，以及同时携带图片和指令文本的多模态 <code>messages</code> 数组。</p>
+<h2>修复提示词缓存</h2>
+<p>脚本原本在 API 调用的顶层设置了 <code>cache_control={"type": "ephemeral"}</code>——这是一个自动缓存的快捷方式，会锁定请求中最后一个可缓存的内容块。问题在于：图片排在内容数组的<em>最后</em>。由于每一页图片的字节数据都不同，它的内容直接成了缓存键的一部分，导致每一页都命中不了缓存。</p>
+<p>修复方案分两步：</p>
+<ol>
+<li>把指令文本块移到图片块<strong>前面</strong></li>
+<li>直接在文本块上添加 <code>"cache_control": {"type": "ephemeral"}</code></li>
+</ol>
+<p>这样一来，缓存键只覆盖固定不变的文本提示词，而每页变化的图片位于缓存断点之后，不再影响缓存命中。</p>
+<p>有一点需要坦诚说明：<code>claude-sonnet-4-6</code> 要求缓存断点之前至少有 2048 个 token，才会真正写入缓存。目前这段提示词大约只有 150 个 token，实际上不会触发缓存。但这次修复在结构上是正确的，等提示词内容扩充之后自然会生效。</p>
+<h2>三套计费体系</h2>
+<p>从 token 额度这个问题出发，我们整理出了一张更清晰的 Claude 计费地图。Claude 有三套独立的计费体系，彼此之间互不共享额度：</p>
+<p><strong>Anthropic API 计费</strong> — 按 token、按调用量收费。Python 脚本里每一次 <code>client.messages.create()</code> 都走这条通道，与任何订阅计划完全无关，费用计入你的 API 账户。</p>
+<p><strong>Claude Pro 订阅</strong> — 每月 20 美元固定月费。覆盖 claude.ai 网页版聊天，以及用 claude.ai 账号登录时在 VS Code 中使用 Claude Code。有每月消息条数上限，并非无限制使用。</p>
+<p><strong>VS Code 中的 Claude Code</strong> — 这是最容易被忽视的一套。根据配置方式的不同，它要么消耗你的 Pro 订阅额度，要么按 token 计费到与 Python 脚本相同的 API 账户。编辑器自动带入提示词的每一段代码片段，都会计入你所在的那个计费桶。</p>
+<p>我们通过发送一条测试消息，确认 VS Code 插件已正常登录并正常工作。那个上下文标签 <code>&lt;/&gt; pdf_to_markdown.py#40-...</code> 表明编辑器已自动把选中的代码作为上下文带入了请求。</p>
+<hr />
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="https://platform.claude.com/docs/en/pricing.md">Anthropic API 定价说明</a></li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching.md">提示词缓存使用指南</a></li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/vision.md">视觉与多模态输入</a></li>
+<li><a href="https://docs.anthropic.com/en/docs/claude-code/overview">Claude Code 官方文档</a></li>
+</ul>
+<hr />
+<p><em>由 Claude Code 协助编辑与润色。</em></p>
+</body>
+</html>
