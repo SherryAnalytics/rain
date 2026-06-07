@@ -1,6 +1,9 @@
 # Markdown source files (converted to HTML for publishing)
 *.md
 
+# Assets (logo embedded inline in HTML; font-preview is a dev tool)
+assets/
+
 # Python
 .venv/
 __pycache__/

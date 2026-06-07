@@ -3,25 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SherryAnalytics — Rain</title>
+  <title>SherryAnalytics / Rain</title>
   <style>
-    body { font-family: Georgia, serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; }
-    h1 { font-size: 2rem; border-bottom: 2px solid #222; padding-bottom: 12px; }
-    p { color: #555; line-height: 1.7; }
-    .nav-links { margin-top: 40px; }
-    .nav-links a {
-      display: inline-block; margin-right: 20px;
-      font-size: 1.1rem; color: #0066cc;
-      text-decoration: none; border-bottom: 1px solid #0066cc;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
     }
-    .nav-links a:hover { color: #004499; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      background-color: #dce8f5;
+      color: #111;
+      min-height: 100vh;
+      padding: 48px 56px 48px 96px;
+    }
+    .logo {
+      margin-bottom: 48px;
+    }
+    .logo svg {
+      width: 90px;
+      height: auto;
+    }
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #111;
+      max-width: 800px;
+      white-space: nowrap;
+      border-bottom: 2px solid #5a8ab0;
+      padding-bottom: 16px;
+      margin-bottom: 32px;
+    }
+    .description {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin-bottom: 56px;
+    }
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .nav-links a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #111;
+      text-decoration: none;
+      border-bottom: 2px solid #111;
+      padding-bottom: 2px;
+      letter-spacing: 0.01em;
+      width: fit-content;
+    }
+    .nav-links a:hover {
+      opacity: 0.6;
+    }
   </style>
 </head>
 <body>
+  <div class="logo"><svg width="200" height="210" viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%"   stop-color="#74D4F8"/>
+      <stop offset="100%" stop-color="#1565C0"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%"   stop-color="#90DFF9"/>
+      <stop offset="100%" stop-color="#1976D2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left drop — leans left, small, higher up -->
+  <g transform="rotate(-14, 46, 82)">
+    <path d="M 46,30 C 38,52 24,72 24,90 C 24,104 34,115 46,115 C 58,115 68,104 68,90 C 68,72 54,52 46,30 Z"
+          fill="url(#g2)" opacity="0.82"/>
+    <ellipse cx="38" cy="68" rx="5" ry="9" fill="white" opacity="0.4" transform="rotate(-15,38,68)"/>
+  </g>
+
+  <!-- Center drop — nearly upright, tallest, lowest -->
+  <g transform="rotate(4, 102, 95)">
+    <path d="M 102,8 C 90,36 66,68 66,96 C 66,120 82,136 102,136 C 122,136 138,120 138,96 C 138,68 114,36 102,8 Z"
+          fill="url(#g1)"/>
+    <ellipse cx="89" cy="56" rx="7" ry="14" fill="white" opacity="0.42" transform="rotate(-18,89,56)"/>
+  </g>
+
+  <!-- Right drop — leans far right, medium, mid height -->
+  <g transform="rotate(24, 154, 86)">
+    <path d="M 154,38 C 146,60 130,78 130,95 C 130,109 140,120 154,120 C 168,120 178,109 178,95 C 178,78 162,60 154,38 Z"
+          fill="url(#g2)" opacity="0.88"/>
+    <ellipse cx="145" cy="76" rx="5" ry="10" fill="white" opacity="0.4" transform="rotate(-22,145,76)"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="100" y="170"
+        font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif"
+        font-size="20" font-weight="800" letter-spacing="0.5"
+        text-anchor="middle" fill="#1565C0">Sherry Analytics</text>
+
+</svg>
+</div>
   <h1>SherryAnalytics / Rain</h1>
-  <p>A space for data engineering, AI, and cloud explorations — built by a practitioner with 30 years in the field.</p>
+  <p class="description">A personal repository containing machine learning and analytics engineering coursework and studies, a garden of thoughts on Python，data, AI, agents, cloud and life, and a growing collection of projects I am building now or imagining for tomorrow.</p>
   <div class="nav-links">
-    <a href="garden-of-thoughts/">📝 Garden of Thoughts</a>
+    <a href="garden-of-thoughts/">Garden of Thoughts</a>
     <a href="https://github.com/SherryAnalytics/Rain" target="_blank">GitHub Repo</a>
   </div>
 </body>
