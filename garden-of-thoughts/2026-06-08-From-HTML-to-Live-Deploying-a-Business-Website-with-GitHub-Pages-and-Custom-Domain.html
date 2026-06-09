@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>From HTML to Live: Deploying a Business Website with GitHub Pages and a Custom Domain — SherryAnalytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Source Sans 3', sans-serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; }
+    h1, h2, h3 { line-height: 1.3; }
+    h1 { font-size: 1.9rem; border-bottom: 2px solid #222; padding-bottom: 12px; }
+    p { line-height: 1.7; color: #333; }
+    a { color: #0066cc; }
+    a:hover { color: #004499; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 3px solid #ccc; margin: 0; padding: 0 16px; color: #555; }
+    .back { font-size: 0.9rem; margin-bottom: 32px; }
+    .back a { text-decoration: none; }
+    .meta { font-size: 0.85rem; color: #888; margin-top: 6px; margin-bottom: 32px; }
+    .tag { background: #eee; border-radius: 3px; padding: 2px 8px; margin-right: 4px; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="back"><a href="index.html">← Garden of Thoughts</a></div>
+  <h1>From HTML to Live: Deploying a Business Website with GitHub Pages and a Custom Domain</h1>
+  <div class="meta">
+    <span>June 8, 2026</span>
+    <span class="tag">github-pages</span> <span class="tag">dns</span> <span class="tag">git</span> <span class="tag">web</span> <span class="tag">consulting</span> <span class="tag">favicon</span> <span class="tag">google-search-console</span>
+  </div>
+  <h1>From HTML to Live: Deploying a Business Website with GitHub Pages and a Custom Domain</h1>
+<p>A single <code>index.html</code> file. A custom domain. A consulting business that needed a professional web presence without the overhead of a CMS. Here is how the whole thing came together in one session — from a local file to a live, HTTPS-secured site indexed by Google.</p>
+<h2>Protecting the Work First</h2>
+<p>Before a single commit was made, two things were put in place: a <code>.gitignore</code> and a <code>LICENSE</code> file.</p>
+<p>The <code>.gitignore</code> was written to ignore everything by default, then explicitly un-ignore only <code>index.html</code> and <code>LICENSE</code>. This is a deliberate inversion of the usual approach — instead of listing what to exclude, you list only what should ever be committed. For a landing page with a large <code>assets/</code> folder, it prevents accidental publishing of images, fonts, or source files that have no business being in a public repo.</p>
+<p>The <code>LICENSE</code> file was a conscious choice, not an afterthought. A repository without a license is technically "all rights reserved" under copyright law — but most people don't know that. An explicit proprietary license file makes the intent unambiguous and gives cleaner grounds for enforcement if content is ever copied without permission. The footer of <code>index.html</code> was updated to match: <em>© 2026 [The Company]. All Rights Reserved.</em></p>
+<h2>Git, GitHub, and the First Push</h2>
+<p>With no existing git history, the repo was initialized from scratch, a remote was added pointing to GitHub, and only <code>index.html</code> and <code>LICENSE</code> were staged. The commit was clean and intentional. The push created the repo's first branch: <code>main</code>.</p>
+<p>GitHub Pages was then enabled from the repository settings, serving directly from the root of <code>main</code>. Within minutes the site was live at the default <code>github.io</code> URL.</p>
+<h2>DNS: Pointing a Real Domain at GitHub</h2>
+<p>The domain was registered and managed through WordPress.com. The existing DNS had an A record handled by WordPress and a CNAME pointing <code>www</code> back to the bare domain — neither of which pointed anywhere near GitHub.</p>
+<p>Two A records were added pointing to GitHub Pages' IP addresses, and the <code>www</code> CNAME was updated to point to the GitHub Pages hostname. GitHub created a <code>CNAME</code> file in the repo automatically when the custom domain was saved in Pages settings. After a short propagation wait, the DNS check turned green.</p>
+<p>HTTPS came next. GitHub issued a certificate automatically via Let's Encrypt. Once the certificate was ready, <strong>Enforce HTTPS</strong> was enabled — all <code>http://</code> traffic now redirects to <code>https://</code> without any server configuration.</p>
+<h2>Favicon and Search Console</h2>
+<p>The browser tab was still showing the WordPress favicon from cache. A <code>favicon.svg</code> already existed in the <code>assets/</code> folder — it just needed a <code>&lt;link rel="icon"&gt;</code> tag in the <code>&lt;head&gt;</code> and an update to <code>.gitignore</code> to allow the <code>assets/favicon.svg</code> file through. One commit, one push.</p>
+<p>Google Search Console was set up to replace a cached search result that still showed the old WordPress content. Ownership was verified via a DNS TXT record, and a manual indexing request was submitted. Google will re-crawl the new content within days.</p>
+<h2>What This Stack Gets You</h2>
+<p>GitHub Pages with a custom domain is a remarkably clean setup for a static business site: no server to maintain, no CMS to update, free HTTPS, and a git-based deployment workflow. The entire publishing pipeline is a <code>git push</code>.</p>
+<hr />
+<h2>Related Reading</h2>
+<ul>
+<li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">GitHub Pages documentation — custom domains</a></li>
+<li><a href="https://letsencrypt.org/how-it-works/">Let's Encrypt — how HTTPS certificates work</a></li>
+<li><a href="https://support.google.com/webmasters/answer/9012289">Google Search Console — request indexing</a></li>
+<li><a href="https://www.cloudflare.com/learning/dns/dns-records/">Understanding DNS record types</a></li>
+<li><a href="https://choosealicense.com/no-permission/">Choose an open source license — or don't</a></li>
+</ul>
+<hr />
+<p><em>Edited and refined with assistance from Claude Code.</em></p>
+</body>
+</html>
