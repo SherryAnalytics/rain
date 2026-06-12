@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Neighbor's Side Yard Might Be Running AI — SherryAnalytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Source Sans 3', sans-serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; }
+    h1, h2, h3 { line-height: 1.3; }
+    h1 { font-size: 1.9rem; border-bottom: 2px solid #222; padding-bottom: 12px; }
+    p { line-height: 1.7; color: #333; }
+    a { color: #0066cc; }
+    a:hover { color: #004499; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 3px solid #ccc; margin: 0; padding: 0 16px; color: #555; }
+    .back { font-size: 0.9rem; margin-bottom: 32px; }
+    .back a { text-decoration: none; }
+    .meta { font-size: 0.85rem; color: #888; margin-top: 6px; margin-bottom: 32px; }
+    .tag { background: #eee; border-radius: 3px; padding: 2px 8px; margin-right: 4px; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="back"><a href="index.html">← Garden of Thoughts</a></div>
+  <h1>Your Neighbor's Side Yard Might Be Running AI</h1>
+  <div class="meta">
+    <span>June 11, 2026</span>
+    <span class="tag">ai-infrastructure</span> <span class="tag">edge-computing</span> <span class="tag">power-grid</span> <span class="tag">data-centers</span> <span class="tag">distributed-compute</span>
+  </div>
+  <p><em>Garden of Thoughts | June 2026</em></p>
+<hr />
+<p>A recent Scientific American piece caught my attention — not because the technology is surprising, but because it makes the grid problem impossible to ignore any longer.</p>
+<p>Span, a smart-panel startup, partnered with Nvidia to launch <strong>XFRA</strong>: a distributed network of AI compute nodes, each about the size of an air conditioner, installed on the exterior of residential homes. Each unit packs 16 Nvidia GPUs, 4 CPUs, and 3 TB of RAM, drawing roughly 12.5 kW at full load. The first 100-home pilot is planned for the Southwest this fall — Arizona or Nevada, most likely. The homeowner pays a flat monthly fee covering electricity and internet; Span manages the workloads remotely. You essentially host a GPU cluster in your side yard and go about your life.</p>
+<p>The engineering rationale is straightforward: most newer homes are wired for 200 amps but typically use around 80 at peak. That unused headroom is already connected to the grid. Span's software monitors it in real time and runs inference workloads during the slack windows — nights, off-peak hours, whenever your home isn't demanding much power.</p>
+<hr />
+<h2>The Real Story Is the Grid</h2>
+<p>The article frames XFRA as a workaround for a bottleneck that people in infrastructure already know too well. Substation upgrades to support a 100-megawatt data center now take <strong>four to seven years</strong> in most of the U.S. A colleague of mine with deep experience in power transformer engineering confirmed this directly: the wait is real, and it is the dominant obstacle for new data center construction in the Southwest right now. It is not hype. Transformer lead times have stretched from 24–30 months pre-2020 to as long as five years today, and over 2,000 gigawatts of generation capacity sat in interconnection queues as of late 2025.</p>
+<p>Span's argument is that instead of waiting for a substation, you aggregate thousands of homes that are already connected. No new grid interconnection required.</p>
+<hr />
+<h2>What It Can and Can't Do</h2>
+<p>XFRA targets <strong>inference</strong> workloads — serving responses, running agents, generating content. It is not suitable for model training, which requires thousands of GPUs exchanging data at very high speed with tight coordination. Inference requests are largely independent and can be routed to whichever node is closest, which also happens to reduce latency for end users. That proximity advantage is real for voice, translation, and agentic tasks.</p>
+<p>Whether it scales is a separate question. Grid researchers point out that the "unused headroom" serves a purpose — utilities rely on load diversity to smooth out peaks and valleys. Fill in those valleys with GPU workloads and you may create new stress points on local distribution infrastructure. Residential electrification — EVs, heat pumps, batteries — will also erode that headroom over time.</p>
+<hr />
+<p>The concept is technically sound for a specific slice of the AI compute problem. Whether it becomes meaningful infrastructure or a clever pilot that never quite scales is still an open question. Either way, the grid bottleneck it is trying to solve is not going away soon.</p>
+<hr />
+<p><strong>Further reading:</strong><br />
+- <a href="https://www.scientificamerican.com/article/span-wants-to-turn-homes-into-mini-data-centers/">Scientific American — Span wants to turn homes into mini data centers</a><br />
+- <a href="https://www.span.io/blog/span-announces-xfra-a-distributed-data-center-solution-to-close-the-speed-to-power-gap-for-ai-compute-demand">Span XFRA official announcement</a><br />
+- <a href="https://pv-magazine-usa.com/2026/05/11/u-s-transformer-market-faces-severe-supply-constraints-as-lead-times-extend-to-four-years/">pv magazine — U.S. transformer market supply constraints</a></p>
+<p><code>#AIInfrastructure</code> <code>#EdgeComputing</code> <code>#PowerGrid</code> <code>#DataCenters</code> <code>#DistributedCompute</code></p>
+<hr />
+<p><em>— Sherry | SherryAnalytics</em><br />
+<em>Curious about data, infrastructure, and where engineering meets the real world.</em></p>
+<p><em>This post was assisted by Claude (Anthropic).</em></p>
+</body>
+</html>
