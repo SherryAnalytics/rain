@@ -1,3 +1,6 @@
+# .gitignore (ignore secrets)
+.env
+
 # Markdown source files (converted to HTML for publishing)
 *.md
 
@@ -9,8 +12,17 @@ assets/
 __pycache__/
 *.pyc
 
+# VS Code
+.vscode/
+
 # macOS
 .DS_Store
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Unpublished posts (kept local, never pushed to GitHub)
+garden-of-thoughts/private/
+
+# Local tooling scripts (kept local, never pushed to GitHub)
+scripts/
